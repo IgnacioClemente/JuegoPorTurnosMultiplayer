@@ -17,6 +17,7 @@ public class MyNetworkIdentity : MonoBehaviour
     {
         if (MyNetworkClient.id == id)
             hasControl = true;
+
         this.id = id;
     }
 }

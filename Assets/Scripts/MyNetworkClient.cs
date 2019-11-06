@@ -52,21 +52,20 @@ public class MyNetworkClient : SocketIOComponent
             id = register.data["id"].ToString();
         });
 
-        On("updatePosition", (updatePosition) =>
+        On("updatePos", (updatePosTransform) =>
         {
-            float x = updatePosition.data["position"]["x"].f;
-            float y = updatePosition.data["position"]["y"].f;
-            float z = updatePosition.data["position"]["z"].f;
-            connectedPlayers[updatePosition.data["id"].ToString()].gameObject.transform.position = new Vector3(x, y, z);
-            Debug.Log(updatePosition.data["id"].ToString());
+            float x = updatePosTransform.data["position"]["x"].f / 1000f;
+            float y = updatePosTransform.data["position"]["y"].f / 1000f;
+            float z = updatePosTransform.data["position"]["z"].f / 1000f;
+            connectedPlayers[updatePosTransform.data["id"].ToString()].gameObject.transform.position = new Vector3(x, y, z);
         });
 
-        On("updateRotation", (updateRotation) =>
+        On("updateRot", (updateRotTransform) =>
          {
-             float x = updateRotation.data["rotation"]["x"].f;
-             float y = updateRotation.data["rotation"]["y"].f;
-             float z = updateRotation.data["rotation"]["z"].f;
-             connectedPlayers[updateRotation.data["id"].ToString()].gameObject.transform.position = new Vector3(x, y, z);
+             float x = updateRotTransform.data["position"]["x"].f / 1000f;
+             float y = updateRotTransform.data["rotation"]["y"].f / 1000f;
+             float z = updateRotTransform.data["rotation"]["z"].f / 1000f;
+             connectedPlayers[updateRotTransform.data["id"].ToString()].gameObject.transform.eulerAngles = new Vector3(x, y, z);
          });
 
         On("disconnect", (disconection) =>
@@ -74,7 +73,7 @@ public class MyNetworkClient : SocketIOComponent
             GameObject objectToDestroy = connectedPlayers[id].gameObject;
             Destroy(objectToDestroy);
             connectedPlayers.Remove(id);
-            Debug.Log("se desconecto un player");
+            Debug.Log("se desconecto un player " + id);
         });
 
         On("playerDisconnected", (disconection) =>
@@ -105,15 +104,26 @@ class PlayerData
 {
     public string id;
     public Vector3Data position;
+    public RotationData rotation;
     public PlayerData()
     {
+        rotation = new RotationData();
         position = new Vector3Data();
     }
 }
+
 [System.Serializable]
 class Vector3Data
 {
-    public float x;
-    public float y;
-    public float z;
+    public double x;
+    public double y;
+    public double z;
+}
+
+[System.Serializable]
+class RotationData
+{
+    public double x;
+    public double y;
+    public double z;
 }

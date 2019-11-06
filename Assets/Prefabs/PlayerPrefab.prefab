@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
-  hasControl: 1
+  hasControl: 0
 --- !u!114 &2728048205150976293
 MonoBehaviour:
   m_ObjectHideFlags: 0

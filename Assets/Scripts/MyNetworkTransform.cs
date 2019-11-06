@@ -34,9 +34,11 @@ public class MyNetworkTransform : MonoBehaviour
 
     void SendData()
     {
-        data.position.x =(float)Math.Round(transform.position.x * 1000.0f) / 1000.0f;
-        data.position.y = (float)Math.Round(transform.position.y * 1000.0f) / 1000.0f;
-        data.position.z = (float)Math.Round(transform.position.z * 1000.0f) / 1000.0f;
+        data.position.x = (double)Math.Round(transform.position.x * 1000.0) / 1000.0;
+        data.position.y = (double)Math.Round(transform.position.y * 1000.0) / 1000.0;
+        data.position.z = (double)Math.Round(transform.position.z * 1000.0) / 1000.0;
+        data.rotation.x = (double)Math.Round(transform.rotation.x * 1000.0f) / 1000.0f;
+        data.rotation.y = (double)Math.Round(transform.rotation.y * 1000.0f) / 1000.0f;
         data.id = identity.ID;
         identity.Socket.Emit("update", new JSONObject(JsonUtility.ToJson(data)));
     }

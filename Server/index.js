@@ -13,7 +13,7 @@ Update(() =>{
         bullet.onUpdate();
         for(var otherplayer in players)
          if(otherplayer != player.id){
-            socket.emit('updatePosition',socket[player.id])
+            socket.emit('update',socket[player.id])
          }
      });
 }, 100,0);
@@ -36,18 +36,24 @@ io.on('connection',function(socket){
         }
     } 
 
-    socket.on('updatePosition',function(data){
+    socket.on('update',function(data)
+    {
+        console.log(player.id);
+        console.log(data.position.x);
+        console.log(data.position.y);
+        console.log(data.position.z);
+
         player.position.x = data.position.x;
         player.position.y = data.position.y;
         player.position.z = data.position.z; 
-        socket.broadcast.emit('updatePosition',player);
-    })
 
-    socket.on('updateRotation',function(data){
         player.rotation.x = data.rotation.x;
         player.rotation.y = data.rotation.y;
         player.rotation.z = data.rotation.z;
-    })
+        
+        socket.broadcast.emit('updatePos',player);
+        socket.broadcast.emit('updateRot',player);
+    });
 
     socket.on('disconnect',function(){
         console.log('player se desconecto');  
