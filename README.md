@@ -1,2 +1,2 @@
 # JuegoPorTurnosMultiplayer
-Conbinación de javascript y unity
+Combinación de javascript y unity
